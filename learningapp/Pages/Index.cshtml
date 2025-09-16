@@ -1,51 +1,87 @@
-﻿@page
+@page
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
-<div class="container-sm">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
 
-      <h1>This is a list of Courses</h1>    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-ykfM8fe5OjWJ58hCEsVrY7uRShVy0DD/Oh4gT1BN5GfWro6ehTpNkc8ARYh7XMGSuZSBkd9cuzB65KRoIFA6Lg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-          <tr>
-            <th class="th-sm" scope="col">Course ID</th>
-            <th class="th-sm" scope="col">Course Name</th>
-            <th class="th-sm" scope="col">Rating</th>            
-          </tr>
-        </thead>
-         
-          <tbody>
-            @foreach(Course course in @Model.Courses)
+    <style>
+        /* Optional: Add custom styles here */
+        .card:hover {
+            transform: scale(1.05);
+            transition: all 0.3s ease-in-out;
+        }
+        .rating-container .fa-star {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">🎓 List of Courses</h1>
+
+        <!-- Grid layout for cards -->
+        <div class="row g-4">
+            @foreach (Course course in @Model.Courses)
             {
-            <tr>
-            <th scope="row">@course.CourseID</th>
-            <td>@course.CourseName</td>
-            <td>@course.Rating</td>            
-          </tr>
-          }
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card shadow-lg border-0 h-100">
 
-          </tbody>  
-</div> 
+                        <!-- Card Header -->
+                        <div class="card-header bg-primary text-white text-center">
+                            <strong>Course ID:</strong> @course.CourseID
+                        </div>
 
-<div class="container-sm">
-    <h1>List of Courses</h1>
-    <div class="row">
-        @foreach (Course course in @Model.Courses)
-        {
-            <div class="col-sm-6 col-md-3">
-                <div class="card">
-                    <div class="card-header">
-                        Course ID: @course.CourseID
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">@course.CourseName</h5>
-                        <p class="card-text">Rating: @course.Rating</p>
+                        <!-- Card Body -->
+                        <div class="card-body">
+
+                            <!-- Course Name -->
+                            <h5 class="card-title text-center">@course.CourseName</h5>
+
+                            <!-- Course Rating with Stars -->
+                            <p class="rating-container text-center my-3">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= Math.Floor(course.Rating))
+                                    {
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                    }
+                                    else if (i - course.Rating > 0 && i - course.Rating < 1)
+                                    {
+                                        <i class="fa-solid fa-star-half-alt text-warning"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-solid fa-star text-muted"></i>
+                                    }
+                                }
+                            </p>
+
+                            <!-- Description Placeholder -->
+                            <p class="text-muted text-center">
+                                This course has a rating of <strong>@course.Rating</strong> stars!
+                            </p>
+
+                        </div>
+
+                        <!-- Card Footer -->
+                        <div class="card-footer text-center">
+                            <a href="#" class="btn btn-outline-primary btn-sm">Learn More</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div> <!-- End of row -->
     </div>
-</div>
+
+</body>
+</html>
